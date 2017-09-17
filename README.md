@@ -1,6 +1,6 @@
 # Password Strength Calculator
 
-[TODO. There will be project description]
+Rates strength of user password on a scale of 1 to 10.
 
 # Project Goals
 
