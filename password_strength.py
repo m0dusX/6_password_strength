@@ -21,7 +21,7 @@ def additional_checks(password, p_data):
     if p_data.get("username").lower() not in password.lower() and date_of_birth not in password:
         additional_rating += 2
     #checks if passwords in blacklist (blacklist.txt) are substrings of user password
-    with open("badlist.txt", "r") as bad_pass_txt:
+    with open("blacklist.txt", "r") as bad_pass_txt:
         bad_passes = bad_pass_txt.readlines()
     bad_pass_list = [password.strip() for password in bad_passes]
     if not any (bad_pass in password for bad_pass in bad_pass_list):
