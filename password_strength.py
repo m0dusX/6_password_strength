@@ -24,7 +24,7 @@ def additional_checks(password, p_data):
     with open("badlist.txt", "r") as bad_pass_txt:
         bad_passes = bad_pass_txt.readlines()
     bad_pass_list = [password.strip() for password in bad_passes]
-    if not any (bad_padd in password for bad_pass in bad_pass_list):
+    if not any (bad_pass in password for bad_pass in bad_pass_list):
         additional_rating += 1
     return additional_rating
 
