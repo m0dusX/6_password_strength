@@ -16,7 +16,6 @@ def regex_check(password):
     if  re.search(r'[~!@#$%^&*()_+]', password):
         symbol_rating += 2
     return symbol_rating
-    
 
 def additional_checks(password, personal_data, bad_passes):
     additional_rating = 0
@@ -29,7 +28,6 @@ def additional_checks(password, personal_data, bad_passes):
     if not any (bad_pass in password for bad_pass in bad_pass_list):
         additional_rating += 1
     return additional_rating
-
 
 if __name__ == '__main__':
     personal_data = {}
