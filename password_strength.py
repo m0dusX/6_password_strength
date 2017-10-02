@@ -1,5 +1,9 @@
 import re
+from getpass import getpass
 
+def make_badlist():
+    with open('blacklist.txt', 'r') as bad_pass_txt:
+        return bad_pass_txt.readlines()
 
 def regex_check(password):
     symbol_rating = 0
@@ -14,15 +18,13 @@ def regex_check(password):
     return symbol_rating
     
 
-def additional_checks(password, p_data):
+def additional_checks(password, personal_data, bad_passes):
     additional_rating = 0
-    date_of_birth = p_data.get('date_of_birth').split('-')[0]
+    year_of_birth = personal_data['date_of_birth'].split('-')[0]
     #checks for similar substrings in password and data provided by user (date of birth and username)
-    if p_data.get('username').lower() not in password.lower() and date_of_birth not in password:
+    if personal_data.get('username').lower() not in password.lower() and year_of_birth not in password:
         additional_rating += 2
     #checks if passwords in blacklist (blacklist.txt) are substrings of user password
-    with open('blacklist.txt', 'r') as bad_pass_txt:
-        bad_passes = bad_pass_txt.readlines()
     bad_pass_list = [password.strip() for password in bad_passes]
     if not any (bad_pass in password for bad_pass in bad_pass_list):
         additional_rating += 1
@@ -31,6 +33,7 @@ def additional_checks(password, p_data):
 
 if __name__ == '__main__':
     personal_data = {}
+    bad_passes = make_badlist()
     username = input('Please enter your name: ')
     personal_data['username'] = username
     while True:
@@ -40,6 +43,7 @@ if __name__ == '__main__':
         else:
             print('Wrong data format!')
     personal_data['date_of_birth'] = date_of_birth
-    password = input('Please enter your password: ')
-    rank = regex_check(password) + additional_checks(password, personal_data)
+    password = getpass(prompt='Please enter your password: ')
+    rank = regex_check(password) + additional_checks(password, 
+    	    personal_data, bad_passes)
     print('Your password rating: {}'.format(rank))
