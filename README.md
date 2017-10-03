@@ -12,7 +12,7 @@ Rates strength of user password on a scale of 1 to 10. To acheive best ranking, 
 
 Place password_strength.py & blacklist.txt somewhere. Then run command line, go to folder in which you moved script and execute it with one parameter containing path to text file with bad passwords.
 
-Example of script launch on Linux, Python 3.5:
+Example of script usage on Linux, Python 3.5:
 
 ```#!bash
 
