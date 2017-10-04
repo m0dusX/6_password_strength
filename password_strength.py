@@ -1,8 +1,8 @@
+import sys
+import string
 import re
 import argparse
 from getpass import getpass
-import sys
-import string
 
 
 def make_badlist(badlist):
