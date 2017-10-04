@@ -37,9 +37,9 @@ def additional_checks(password, personal_data, bad_passes):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Password strength checker")
-    parser.add_argument("path_to_badlist",
-                        help="path to txt file with bad passwords")
+    parser = argparse.ArgumentParser(description='Password strength checker')
+    parser.add_argument('path_to_badlist',
+                        help='path to txt file with bad passwords')
     args = parser.parse_args()
     badlist = args.path_to_badlist
     personal_data = {}
