@@ -27,7 +27,7 @@ Example of script work (with input):
 Please enter your name: Nikita
 Please enter your date of birth (in YYYY-MM-DD format): 1980-23-12
 Please enter your password: 2376234123nikita*A
-Your password rating: 7
+Your password rating: 8
 
 ```
 
