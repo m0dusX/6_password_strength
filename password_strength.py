@@ -32,31 +32,37 @@ def bad_password_check(password, bad_passes):
         return 0
 
 
-def user_data_check(password, data_to_check):
-    if all(string not in password for string in data_to_check):
-        return 2
+def user_data_check(password, user_data):
+    if "year_of_birth" in user_data:
+        check_result = 0
+        if user_data["year_of_birth"] not in password:
+            check_result += 1
+        if user_data["username"] not in password:
+            check_result += 1
+        return check_result
     else:
-        return 0
+        if user_data["username"] not in password:
+            return 2
+        else:
+            return 0
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Password strength checker')
-    parser.add_argument('path_to_badlist',
-                        help='path to txt file with bad passwords')
+    parser = argparse.ArgumentParser(description="Password strength checker")
+    parser.add_argument("path_to_badlist",
+                        help="path to txt file with bad passwords")
     args = parser.parse_args()
     filepath = args.path_to_badlist
-    data_to_check = []
+    user_data = {}
     bad_passes = load_badpasses(filepath)
     username = input('Please enter your name: ')
-    data_to_check.append(username.lower())
+    user_data["username"] = username.lower()
     user_input = input('Please enter your date '
                        'of birth (in YYYY-MM-DD format): ')
     if re.match('^\d{4}-\d{2}-\d{2}$', user_input):
-        data_to_check.append(user_input.split('-')[0])
-    else:
-        data_to_check.apped(user_input)
+        user_data["year_of_birth"] = user_input.split('-')[0]
     password = getpass(prompt='Please enter your password: ')
     rank = (password_strength_check(password) +
             + bad_password_check(password, bad_passes) +
-            + user_data_check(password.lower(), data_to_check))
+            + user_data_check(password.lower(), user_data))
     print('Your password rating: {}'.format(rank))
