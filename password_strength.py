@@ -1,59 +1,62 @@
 import re
 import argparse
 from getpass import getpass
-import sys
 import string
 
 
-def make_badlist(badlist):
-    with open(badlist, 'r') as bad_pass_txt:
-        return bad_pass_txt.readlines()
+def load_badpasses(filepath):
+    with open(filepath, 'r') as bad_pass_txt:
+        loaded_txt = bad_pass_txt.readlines()
+    return [bad_pass.strip() for bad_pass in loaded_txt]
 
 
-def symbol_strength_check(password):
-    symbol_strength = 0
-    password_minimum = 8
-    if len(password) >= password_minimum:
-        symbol_strength += 2
+def password_strength_check(password):
+    password_strength = 0
+    minimum_length = 8
+    if len(password) >= minimum_length:
+        password_strength += 2
     if not password.isdigit():
         if re.search(r'[a-z]', password) and re.search(r'[A-Z]', password):
-            symbol_strength += 2
+            password_strength += 2
         if re.search(r'\d+', password):
-            symbol_strength += 1
+            password_strength += 1
         if any(char in string.punctuation for char in password):
-            symbol_strength += 2
-    return symbol_strength
+            password_strength += 2
+    return password_strength
 
 
-def predictable_substrings_check(password, personal_data, bad_passes):
-    no_predictable_substrings = 0
-    if personal_data['username'].lower() not in password.lower() and \
-            personal_data['date_of_birth'] not in password:
-        no_predictable_substrings += 2
-    bad_pass_list = [bad_pass.strip() for bad_pass in bad_passes]
-    if not any(bad_pass in password for bad_pass in bad_pass_list):
-        no_predictable_substrings += 1
-    return no_predictable_substrings
+def bad_password_check(password, bad_passes):
+    if not any(bad_pass in password for bad_pass in bad_passes):
+        return 1
+    else:
+        return 0
+
+
+def user_data_check(password, data_to_check):
+    if all(string not in password for string in data_to_check):
+        return 2
+    else:
+        return 0
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Password strength checker")
-    parser.add_argument("path_to_badlist",
-                        help="path to txt file with bad passwords")
+    parser = argparse.ArgumentParser(description='Password strength checker')
+    parser.add_argument('path_to_badlist',
+                        help='path to txt file with bad passwords')
     args = parser.parse_args()
-    badlist = args.path_to_badlist
-    personal_data = {}
-    bad_passes = make_badlist(badlist)
+    filepath = args.path_to_badlist
+    data_to_check = []
+    bad_passes = load_badpasses(filepath)
     username = input('Please enter your name: ')
-    personal_data['username'] = username
-    date_of_birth = input('Please enter your date '
-                          'of birth (in YYYY-MM-DD format): ')
-    if re.match('^\d{4}-\d{2}-\d{2}$', date_of_birth):
-        personal_data['date_of_birth'] = date_of_birth.split('-')[0]
+    data_to_check.append(username.lower())
+    user_input = input('Please enter your date '
+                       'of birth (in YYYY-MM-DD format): ')
+    if re.match('^\d{4}-\d{2}-\d{2}$', user_input):
+        data_to_check.append(user_input.split('-')[0])
     else:
-        personal_data['date_of_birth'] = date_of_birth
+        data_to_check.apped(user_input)
     password = getpass(prompt='Please enter your password: ')
-    rank = symbol_strength_check(password) + \
-        predictable_substrings_check(password, personal_data, bad_passes)
+    rank = (password_strength_check(password) +
+            + bad_password_check(password, bad_passes) +
+            + user_data_check(password.lower(), data_to_check))
     print('Your password rating: {}'.format(rank))
-    sys.exit()
