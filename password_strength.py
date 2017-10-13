@@ -30,12 +30,14 @@ def bad_password_check(password, bad_passes):
 
 
 def user_data_check(password, user_data):
-    check_result = 2
+    check_result = 0
     if user_data["username"] in password:
-        check_result -= 1
+        check_result += 1
     if "year_of_birth" in user_data:
         if user_data["year_of_birth"] in password:
-            check_result -= 1
+            check_result += 1
+    else:
+        check_result += 1
     return check_result
 
 
