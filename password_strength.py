@@ -31,10 +31,10 @@ def bad_password_check(password, bad_passes):
 
 def user_data_check(password, user_data):
     check_result = 0
-    if user_data["username"] in password:
+    if user_data["username"] not in password:
         check_result += 1
     if "year_of_birth" in user_data:
-        if user_data["year_of_birth"] in password:
+        if user_data["year_of_birth"] not in password:
             check_result += 1
     else:
         check_result += 1
