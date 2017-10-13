@@ -42,7 +42,8 @@ if __name__ == '__main__':
     strings_to_check = []
     bad_passes = load_badpasses(filepath)
     username = input('Please enter your name: ')
-    strings_to_check.append(username.lower())
+    if username is not "":
+        strings_to_check.append(username.lower())
     user_input = input('Please enter your date '
                        'of birth (in YYYY-MM-DD format): ')
     if re.match('^\d{4}-\d{2}-\d{2}$', user_input):
