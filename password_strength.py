@@ -26,25 +26,17 @@ def password_strength_check(password):
 
 
 def bad_password_check(password, bad_passes):
-    if not any(bad_pass in password for bad_pass in bad_passes):
-        return 1
-    else:
-        return 0
+    return not any(bad_pass in password for bad_pass in bad_passes)
 
 
 def user_data_check(password, user_data):
+    check_result = 2
+    if user_data["username"] in password:
+        check_result -= 1
     if "year_of_birth" in user_data:
-        check_result = 0
-        if user_data["year_of_birth"] not in password:
-            check_result += 1
-        if user_data["username"] not in password:
-            check_result += 1
-        return check_result
-    else:
-        if user_data["username"] not in password:
-            return 2
-        else:
-            return 0
+        if user_data["year_of_birth"] in password:
+            check_result -= 1
+    return check_result
 
 
 if __name__ == '__main__':
@@ -63,6 +55,6 @@ if __name__ == '__main__':
         user_data["year_of_birth"] = user_input.split('-')[0]
     password = getpass(prompt='Please enter your password: ')
     rank = (password_strength_check(password) +
-            + bad_password_check(password, bad_passes) +
+            + int(bad_password_check(password, bad_passes)) +
             + user_data_check(password.lower(), user_data))
     print('Your password rating: {}'.format(rank))
