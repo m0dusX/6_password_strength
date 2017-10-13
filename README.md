@@ -22,7 +22,7 @@ $ python password_strength.py [-h] <path_to_badlist>
 
 Example of script work (with input):
 
-```#!bash
+```bash
 
 Please enter your name: Nikita
 Please enter your date of birth (in YYYY-MM-DD format): 1980-23-12
