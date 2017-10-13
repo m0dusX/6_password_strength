@@ -41,8 +41,8 @@ if __name__ == '__main__':
     filepath = args.path_to_badlist
     strings_to_check = []
     bad_passes = load_badpasses(filepath)
-    username = input('Please enter your name: ')
-    if username is not "":
+    username = input('Please enter your name (5 characters minimum): ')
+    if len(username) >= 5:
         strings_to_check.append(username.lower())
     user_input = input('Please enter your date '
                        'of birth (in YYYY-MM-DD format): ')
