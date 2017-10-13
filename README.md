@@ -14,7 +14,7 @@ Place password_strength.py & blacklist.txt somewhere. Then run command line, go 
 
 Script usage on Linux, Python 3.5:
 
-```#!bash
+```bash
 
 $ python password_strength.py [-h] <path_to_badlist>
 
