@@ -29,8 +29,8 @@ def bad_password_check(password, bad_passes):
     return not any(bad_pass in password for bad_pass in bad_passes)
 
 
-def user_data_check(password, strings_to_check):
-    return 2 * all(string not in password for string in strings_to_check)
+def user_data_check(password, user_data):
+    return 2 * all(string not in password for string in user_data)
 
 
 if __name__ == '__main__':
@@ -39,17 +39,17 @@ if __name__ == '__main__':
                         help="path to txt file with bad passwords")
     args = parser.parse_args()
     filepath = args.path_to_badlist
-    strings_to_check = []
+    user_data = []
     bad_passes = load_badpasses(filepath)
-    username = input('Please enter your name (5 characters minimum): ')
-    if len(username) >= 5:
-        strings_to_check.append(username.lower())
+    username = input('Please enter your name: ')
+    if username is not "":
+        user_data.append(username.lower())
     user_input = input('Please enter your date '
                        'of birth (in YYYY-MM-DD format): ')
     if re.match('^\d{4}-\d{2}-\d{2}$', user_input):
-        strings_to_check.append(user_input.split('-')[0])
+        user_data.append(user_input.split('-')[0])
     password = getpass(prompt='Please enter your password: ')
     rank = (password_strength_check(password) +
             + int(bad_password_check(password, bad_passes)) +
-            + user_data_check(password.lower(), strings_to_check))
+            + user_data_check(password.lower(), user_data))
     print('Your password rating: {}'.format(rank))
