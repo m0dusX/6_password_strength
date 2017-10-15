@@ -42,12 +42,12 @@ if __name__ == '__main__':
     user_data = []
     bad_passes = load_badpasses(filepath)
     username = input('Please enter your name: ')
-    if username is not "":
+    if username:
         user_data.append(username.lower())
-    user_input = input('Please enter your date '
-                       'of birth (in YYYY-MM-DD format): ')
-    if re.match('^\d{4}-\d{2}-\d{2}$', user_input):
-        user_data.append(user_input.split('-')[0])
+    user_birth_date = input('Please enter your date '
+                            'of birth (in YYYY-MM-DD format): ')
+    if re.match('^\d{4}-\d{2}-\d{2}$', user_birth_date,):
+        user_data.append(user_birth_date.split('-')[0])
     password = getpass(prompt='Please enter your password: ')
     rank = (password_strength_check(password) +
             + int(bad_password_check(password, bad_passes)) +
