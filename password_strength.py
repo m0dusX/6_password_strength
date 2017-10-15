@@ -50,6 +50,6 @@ if __name__ == '__main__':
         user_data.append(user_birth_date.split('-')[0])
     password = getpass(prompt='Please enter your password: ')
     rank = (password_strength_check(password) +
-            + int(bad_password_check(password, bad_passes)) +
-            + user_data_check(password.lower(), user_data))
+            bad_password_check(password, bad_passes) +
+            user_data_check(password.lower(), user_data))
     print('Your password rating: {}'.format(rank))
